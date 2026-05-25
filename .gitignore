@@ -1,0 +1,45 @@
+# Local-only state and caches
+.superpowers/
+.remember/
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Editor
+.vscode/
+.idea/
+*.swp
+*~
+
+# Media (large binaries — override with `git add -f` if intentional)
+*.mp4
+*.mov
+*.avi
+*.mkv
+
+# Python (for future implementation)
+__pycache__/
+*.pyc
+*.pyo
+.venv/
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+
+# Node (for future implementation)
+node_modules/
+.next/
+dist/
+build/
+
+# Secrets
+.env
+.env.*
+!.env.example
+*.pem
+*.key
+
+# Logs
+*.log
+logs/
