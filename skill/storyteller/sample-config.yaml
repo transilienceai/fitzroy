@@ -1,0 +1,53 @@
+# StoryTeller configuration.
+# Copy to ~/.storyteller/config.yaml and edit. The install script copies this on first run.
+
+sources:
+  github:
+    enabled: true
+    repos:
+      # Add your personal repos here as "owner/name". Examples from gh repo list:
+      # - kkmookhey/ciso-copilot
+      # - kkmookhey/basecamp-ai-sec
+      # - kkmookhey/communitytools
+    only_authored_by_me: false
+    lookback_days: 7
+
+  slack:
+    enabled: false  # Slice E
+    channels: []
+    lookback_days: 7
+    min_reactions: 3
+
+  atlassian:
+    enabled: false  # Slice E
+    confluence_spaces: []
+    jira_jql: "status = Done AND updated >= -7d AND labels in (release, feature)"
+
+scoring:
+  rubric: jennifer
+  top_n: 3
+
+drafting:
+  formats:
+    - { platform: linkedin,  format: long-post, enabled: true }
+    - { platform: x,         format: thread,    enabled: true }
+    - { platform: instagram, format: caption,   enabled: true, hold: true }
+    - { platform: reels,     format: script,    enabled: true, hold: true }
+
+publishing:
+  postiz:
+    push_as_draft: true        # ALWAYS true. Never auto-publishes.
+    workspace_id: null
+    integrations:              # Verified 2026-05-24 via postiz integrations:list
+      linkedin: "<your-linkedin-integration-id>"  # @kkmookhey
+      x: "<your-x-integration-id>"         # @kkmookhey
+      instagram: ""            # Not yet connected; for Slice F
+      youtube: ""              # Not yet connected; for Slice G
+
+notification:
+  slack:
+    target: "U0EXAMPLE01"      # KK's Slack user ID (self-DM)
+    template: "{count} drafts queued in Postiz. Top: '{top_title}'. /storyteller to review."
+
+state:
+  retention_days: 90
