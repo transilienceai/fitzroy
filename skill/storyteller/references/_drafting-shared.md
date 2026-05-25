@@ -4,7 +4,7 @@ This file is loaded by ALL StoryTeller drafter prompts (`drafting-linkedin.md`, 
 
 ## Voice authority
 
-**REQUIRED:** Load `kk-voice` before drafting. For Reels/Shorts, ALSO load `kk-short-form` (Meera/Rohan audience, not Jennifer).
+**REQUIRED:** Load `kk-voice` before drafting. For Instagram captions AND Reels/Shorts scripts, ALSO load `kk-short-form` (Meera/Rohan audience, not Jennifer — the Jennifer pre-publish checklist does NOT apply to these formats).
 
 ## Banned phrases (all formats)
 
