@@ -13,10 +13,18 @@ sources:
     lookback_days: 7
 
   slack:
-    enabled: false  # Slice E
-    channels: []
+    enabled: true                  # Slice E
+    channels:
+      # Add real Slack channel IDs here. Use mcp__claude_ai_Slack__slack_search_channels to find them.
+      # KK's reachable channels (per Task 1 probe 2026-05-26):
+      # - C0EXAMPLE01  # #dev_all
+      # - C0EXAMPLE02  # #dev-marketing
+      # - C0EXAMPLE03  # #general
+      # - C0EXAMPLE04  # #transilience-omega-secops
     lookback_days: 7
-    min_reactions: 3
+    min_reactions: 3               # Stage 1 threshold (reactions filter)
+    min_replies: 3                 # Stage 2 (thread-root fallback) threshold
+    fallback_threshold: 6          # When Stage 1 count < this, also include thread roots. Defaults to 2 * scoring.top_n.
 
   atlassian:
     enabled: false  # Slice E
@@ -25,7 +33,8 @@ sources:
 
 scoring:
   rubric: jennifer
-  top_n: 3
+  top_n: 3                         # Scheduled mode auto-picks this many; interactive mode uses this as the recommended pick count.
+  menu_size: 10                    # Interactive idea-menu width (candidate pool kept after score-cutoff).
 
 drafting:
   formats:
