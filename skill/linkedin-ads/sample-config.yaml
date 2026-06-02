@@ -1,0 +1,94 @@
+# LinkedIn Ads — Transilience AI configuration.
+# Copy to ~/.linkedinads/config.yaml on first run. The install script does this if the file is missing.
+# Edit audiences[] and offers[] BEFORE running /linkedin-ad — both must be non-empty.
+
+brand:
+  transilience:
+    page_url: "https://www.linkedin.com/company/transilience-ai/"
+    ad_account_id: ""               # For your own records — skill does not call the LinkedIn API
+    voice_skill: "kk-voice"         # Always kk-voice for v1
+
+defaults:
+  daily_budget_usd: 150             # B2B mid-market floor; KK overrides per ad in review loop
+  duration_days: 14                 # 2-week test window
+  bid_strategy: "auto"              # LinkedIn's automated bid (Maximum delivery)
+  geo_default: "United States"      # Belt-and-suspenders — every preset also locks US
+
+# AUDIENCE PRESETS — all US-market for v1.
+# Each preset is named; ads reference presets by name. Add/remove as needed.
+# LinkedIn-supported fields: geos, job_titles, seniorities, company_size, industries, exclusions.
+audiences:
+  - name: "us-mid-market-ciso"
+    description: "Jennifer-shaped — Deputy CISO / CISO at US mid-market enterprises"
+    geos: ["United States"]
+    job_titles: ["CISO", "Deputy CISO", "VP Information Security", "Head of Information Security"]
+    seniorities: ["VP", "Director"]
+    company_size: ["501-1000", "1001-5000", "5001-10000"]
+    industries: ["Financial Services", "Hospital & Health Care", "Computer Software", "Insurance"]
+    exclusions:
+      job_titles: []
+      companies: []                 # Add Transilience customer list once exported from CRM
+      audience_lists: []            # LinkedIn matched-audience IDs (e.g., uploaded customer email lists)
+
+  - name: "us-enterprise-soc-lead"
+    description: "SOC managers / detection-eng leads at US large enterprises"
+    geos: ["United States"]
+    job_titles: ["SOC Manager", "Director of Security Operations", "Head of Detection Engineering", "Director, Threat Detection"]
+    seniorities: ["Manager", "Director"]
+    company_size: ["1001-5000", "5001-10000", "10001+"]
+    industries: ["Financial Services", "Hospital & Health Care", "Computer Software", "Information Technology and Services"]
+    exclusions: { job_titles: [], companies: [], audience_lists: [] }
+
+  - name: "us-ai-security-buyers"
+    description: "Heads of AI governance / ML security / AppSec evaluating AI tooling"
+    geos: ["United States"]
+    job_titles: ["Head of AI Security", "Head of AI Governance", "VP AppSec", "Head of ML Security", "Director, Product Security"]
+    seniorities: ["Director", "VP", "CXO"]
+    company_size: ["501-1000", "1001-5000", "5001-10000", "10001+"]
+    industries: ["Computer Software", "Financial Services", "Information Technology and Services"]
+    exclusions: { job_titles: [], companies: [], audience_lists: [] }
+
+# OFFERS — Transilience landing pages ads point to.
+# Each offer carries URL + default LinkedIn CTA + UTM template.
+# {slug} is substituted from the ad's slug at staging time.
+offers:
+  - name: "free-ai-readiness-assessment"
+    title: "Free AI Security Readiness Assessment"
+    url: "https://transilience.ai/assessment"
+    default_cta: "Learn more"        # Must be from references/cta-allowlist; LinkedIn rejects off-list values
+    utm_source: "linkedin"
+    utm_medium: "paid"
+    utm_campaign: "ai-readiness-{slug}"
+
+  - name: "product-demo"
+    title: "Book a Transilience Demo"
+    url: "https://transilience.ai/demo"
+    default_cta: "Request demo"
+    utm_source: "linkedin"
+    utm_medium: "paid"
+    utm_campaign: "demo-{slug}"
+
+  - name: "whitepaper-ai-spm"
+    title: "AI-SPM: The Practitioner's Playbook"
+    url: "https://transilience.ai/whitepaper-ai-spm"
+    default_cta: "Download"
+    utm_source: "linkedin"
+    utm_medium: "paid"
+    utm_campaign: "wp-aispm-{slug}"
+
+# STAGING PATHS
+staging:
+  dir: "~/.linkedinads/staging"
+  image_dir: "~/.linkedinads/images"
+  failed_image_dir: "~/.linkedinads/failed-images"
+
+# CREATIVE VARIANT RULES
+variants:
+  count: 3
+  styles: ["problem-led", "outcome-led", "question-led"]   # The 3 hook shapes
+
+# IMAGE GENERATION
+image:
+  size: "1200x627"                  # LinkedIn Single Image spec
+  generator: "gemini"               # Reuses ~/.claude/skills/storyteller/scripts/gen_image.sh
+  style_hint: "quiet-paper"         # Consistent with storyteller's brand visual
