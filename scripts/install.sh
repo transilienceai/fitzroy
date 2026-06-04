@@ -4,7 +4,7 @@
 set -euo pipefail
 
 REPO_ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
-SKILLS_TO_INSTALL=(storyteller kk-voice kk-short-form linkedin-ads)
+SKILLS_TO_INSTALL=(storyteller kk-voice kk-short-form linkedin-ads linkedin-post-grader)
 
 mkdir -p "${HOME}/.claude/skills"
 
@@ -55,7 +55,8 @@ NEXT STEPS:
 
      Then either: source ~/.zshrc  OR  open a new terminal so Claude Code inherits it.
   4. In Claude Code:
-       /storyteller        — surface ranked post ideas from GitHub/Slack
+       /storyteller         — surface ranked post ideas from GitHub/Slack
        /linkedin-ad <topic> — stage a Transilience paid ad (Campaign Manager copy-paste)
+       /grade-post <url>    — grade any LinkedIn post against the Jennifer filter (screenshot-shareable)
 
 EOF

@@ -10,10 +10,11 @@ This is a set of Claude Code skills, not a SaaS. It runs on your machine, uses y
 
 ## What's inside
 
-Four skills, each does one thing well:
+Five skills, each does one thing well:
 
 - **`storyteller`** — surfaces post-worthy moments from your last 7 days of GitHub merges + Slack threads, scores them against your audience filter, lets you pick, drafts all 4 formats in parallel, generates an image, pushes drafts to Postiz.
 - **`linkedin-ads`** — stages a full LinkedIn Campaign Manager setup (3 hook variants + audience + offer + image + UTM'd URL) as one markdown file per ad. Manual copy-paste — no LinkedIn API.
+- **`linkedin-post-grader`** — `/grade-post <url-or-text>` returns a 0–10 score against the Jennifer filter + a rewrite that would score 7+. Works on your posts, competitor posts, or any viral thread. Screenshot-shareable by design.
 - **`kk-voice`** — the voice + audience filter. This is where the magic isn't: a 7-item pre-publish checklist against a real audience persona (mine is "Jennifer Chen, Deputy CISO at a US mid-market enterprise"). **Fork this file first.** This is what stops the output from sounding like generic LLM slop.
 - **`kk-short-form`** — Reels/Shorts structural rules (4-part hook/setup/payoff/close, 60/30/10 audience ratio, 10-item pre-publish checklist for vertical video).
 
@@ -115,6 +116,7 @@ In any Claude Code session (CLI, VS Code, or web):
 ```
 /storyteller            — surface this week's ranked post ideas, draft picks, push to Postiz
 /linkedin-ad <topic>    — stage a paid LinkedIn ad for Campaign Manager
+/grade-post <url>       — grade any LinkedIn post (yours / a competitor's / a viral thread); screenshot-shareable
 ```
 
 Flags:
@@ -125,7 +127,12 @@ Flags:
 
 /linkedin-ad --from-post <url|file>   — amplify an organic post
 /linkedin-ad --no-image               — skip image generation
+/linkedin-ad --image-style <photo|infographic|ascii-diagram|custom>  — override auto-picked image style
 /linkedin-ad regen-image <slug>       — regenerate an image for a staged ad
+
+/grade-post --save                 — also archive the rendered grade to ~/.linkedinads/graded/
+/grade-post --rewrite-anyway       — force the rewrite section even for hard-zero posts
+/grade-post --no-rewrite           — grade-only output (skip the rewrite section)
 ```
 
 ---
