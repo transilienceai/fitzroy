@@ -19,7 +19,11 @@ Output is a single markdown file per ad in `~/.linkedinads/staging/`. KK copy-pa
 4. **Pick audience preset** (interactive) — render `config.audiences[].name` + `description` as a numbered menu. Wait for pick. Expand the chosen preset into the full targeting block per `references/audience-presets.md`. Skip if `--audience <preset>` passed.
 5. **Pick offer** (interactive) — render `config.offers[].name` + `title` as a numbered menu. Wait for pick. Load URL + CTA + UTM template per `references/offer-library.md`. Skip if `--offer <name>` passed.
 6. **Draft 3 creative variants** — load `kk-voice` skill. Produce headline + intro + CTA in `problem-led`, `outcome-led`, `question-led` styles per `references/variant-rules.md`. Flag any over-limit copy in-place (headline > 70, intro > 150 soft / 600 hard) — do NOT silently truncate.
-7. **Generate image** — construct the Gemini prompt per `references/image-brief.md`. Invoke `~/.claude/skills/storyteller/scripts/gen_image.sh` with the 1200x627 composition hint baked into the prompt. Save to `~/.linkedinads/images/<slug>.png`. On failure: log to `~/.linkedinads/failed-images/<slug>.log` and continue with `MISSING` placeholder.
+7. **Generate image** per `references/image-brief.md`:
+   - Resolve **STYLE** from `--image-style` flag OR picked audience's `preferred_image_styles[0]` (auto-pick — see `references/image-styles.md` for audience→style mapping research).
+   - Build **SUBJECT** from offer.title + brief + extracted specifics (named clouds, frameworks, numbers, license types). The subject must describe *what the ad is about*, not *who's looking at it*.
+   - Export `IMAGE_STYLE=<resolved block>`, invoke `~/.claude/skills/storyteller/scripts/gen_image.sh "<subject prompt>" "<output>"`. Save to `~/.linkedinads/images/<slug>.png`.
+   - On failure: log to `~/.linkedinads/failed-images/<slug>.log` and continue with `MISSING` placeholder.
 8. **Review loop** (interactive). Render the full staged ad. Loop on edits ("tighten variant 2's hook", "regen image", "swap audience to us-enterprise-soc-lead", "shorten the intro on variant B") until KK says "ship it".
 9. **Write staging file** — `~/.linkedinads/staging/<YYYY-MM-DD>-<slug>.md` per `references/ad-template.md`. Print absolute path. NO push to LinkedIn — staging only.
 
@@ -31,10 +35,11 @@ Output is a single markdown file per ad in `~/.linkedinads/staging/`. KK copy-pa
 - **`--offer <offer-name>`** — skip step 5. Errors if name not in config.
 - **`--from-post <url|file>`** — switches to post-first trigger.
 - **`--no-image`** — skip step 7 entirely; staging file gets `MISSING — generation skipped`.
+- **`--image-style <photo|infographic|ascii-diagram|custom>`** — override the default visual style per `references/image-styles.md`. Defaults to `photo` (bold editorial photography). `custom` prompts KK for a free-text aesthetic descriptor.
 
 ## Subcommands
 
-- `/linkedin-ad regen-image <slug>` — read `<slug>`'s staging file, edit the image brief interactively (or accept), regen via `gen_image.sh`, rewrite the `## 5. Image` section only. Rest of the ad untouched.
+- `/linkedin-ad regen-image <slug> [--image-style <name>]` — read `<slug>`'s staging file, edit the image brief interactively (or accept), regen via `gen_image.sh` with optional style override, rewrite the `## 5. Image` section only. Rest of the ad untouched.
 - `/linkedin-ad list` — print one row per `~/.linkedinads/staging/*.md`: date, slug, objective, audience, offer, status from frontmatter (`staged`, `copied`, `archived`).
 
 ## Failure-mode anti-patterns

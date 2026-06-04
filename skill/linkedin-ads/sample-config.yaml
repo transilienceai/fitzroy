@@ -17,9 +17,14 @@ defaults:
 # AUDIENCE PRESETS — all US-market for v1.
 # Each preset is named; ads reference presets by name. Add/remove as needed.
 # LinkedIn-supported fields: geos, job_titles, seniorities, company_size, industries, exclusions.
+#
+# `preferred_image_styles` (NEW): ordered list of image styles that work for this audience
+# per LinkedIn ad benchmarks. The skill picks styles[0] as default unless --image-style overrides.
+# Valid values: photo | infographic | ascii-diagram | custom. See references/image-styles.md.
 audiences:
   - name: "us-mid-market-ciso"
     description: "Jennifer-shaped — Deputy CISO / CISO at US mid-market enterprises"
+    preferred_image_styles: ["photo", "infographic"]   # Faces work for execs; data viz for board-deck moments
     geos: ["United States"]
     job_titles: ["CISO", "Deputy CISO", "VP Information Security", "Head of Information Security"]
     seniorities: ["VP", "Director"]
@@ -32,6 +37,7 @@ audiences:
 
   - name: "us-enterprise-soc-lead"
     description: "SOC managers / detection-eng leads at US large enterprises"
+    preferred_image_styles: ["infographic", "ascii-diagram", "photo"]   # Numbers + comparisons at the business/tech edge
     geos: ["United States"]
     job_titles: ["SOC Manager", "Director of Security Operations", "Head of Detection Engineering", "Director, Threat Detection"]
     seniorities: ["Manager", "Director"]
@@ -41,6 +47,7 @@ audiences:
 
   - name: "us-ai-security-buyers"
     description: "Heads of AI governance / ML security / AppSec evaluating AI tooling"
+    preferred_image_styles: ["infographic", "ascii-diagram"]   # Framework crosswalks + comparison data
     geos: ["United States"]
     job_titles: ["Head of AI Security", "Head of AI Governance", "VP AppSec", "Head of ML Security", "Director, Product Security"]
     seniorities: ["Director", "VP", "CXO"]

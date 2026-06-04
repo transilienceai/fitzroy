@@ -33,7 +33,12 @@ if [[ -z "${GEMINI_API_KEY:-}" ]]; then
   fi
 fi
 
-STYLE='Style: Quiet Paper editorial illustration. Warm off-white background, ink-dark text, a single muted accent color (deep teal, rust, or olive — pick one and commit). Hand-drawn or vector-clean lines, generous whitespace, minimal composition. No neon, no AI-glossy gradients, no stock-photo realism, no busy backgrounds. If text appears, it is sparse, large, and editorial — never crammed. Square 1080x1080. Read as a thoughtful operator brief, not a marketing banner.'
+DEFAULT_STYLE='Style: Quiet Paper editorial illustration. Warm off-white background, ink-dark text, a single muted accent color (deep teal, rust, or olive — pick one and commit). Hand-drawn or vector-clean lines, generous whitespace, minimal composition. No neon, no AI-glossy gradients, no stock-photo realism, no busy backgrounds. If text appears, it is sparse, large, and editorial — never crammed. Square 1080x1080. Read as a thoughtful operator brief, not a marketing banner.'
+
+# Style override: callers (e.g. linkedin-ads) can supply their own STYLE block via
+# the IMAGE_STYLE env var. If unset, fall back to the Quiet-Paper default above
+# (storyteller's brand aesthetic for organic posts).
+STYLE="${IMAGE_STYLE:-$DEFAULT_STYLE}"
 
 FULL_PROMPT="$STYLE
 
